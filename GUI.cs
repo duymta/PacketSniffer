@@ -115,6 +115,7 @@ namespace NSHW
                     count = packet.Count.ToString();
                     time = packet.Timestamp.ToString();
                     this.source = ip.Source.ToString();
+
                     this.destination = ip.Destination.ToString();
                     length = ip.Length.ToString();
                     httpver = httpPacket.Version.ToString();
@@ -393,7 +394,9 @@ namespace NSHW
 
             else if (adapters_list.SelectedIndex >= 0)//if an adapter selected
             {
-                timer1.Enabled = true;//start updating listview and textbox to show info
+                timer1.Enabled = true;
+                //start updating listview and textbox to show info\
+                timer1.Start();
                 selectedAdapter = AdaptersList[adapters_list.SelectedIndex];//get selected adapter from combobox
                 backgroundWorker1.RunWorkerAsync();//start capturing and making filters
                 backgroundWorker2.RunWorkerAsync();//start saving .pcap file if needed
