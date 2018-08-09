@@ -24,3 +24,6 @@ D:\PacketSniffer\SnifferC#\NSHW\obj\Debug\NSHW.csprojResolveAssemblyReference.ca
 D:\PacketSniffer\SnifferC#\NSHW\obj\Debug\NSHW.GUI.resources
 D:\PacketSniffer\SnifferC#\NSHW\obj\Debug\NSHW.Properties.Resources.resources
 D:\PacketSniffer\SnifferC#\NSHW\obj\Debug\NSHW.csproj.GenerateResource.Cache
+D:\PacketSniffer\CloneSniffer\PacketSniffer\bin\Debug\NSHW.exe.config
+D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.exe
+D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.pdb
