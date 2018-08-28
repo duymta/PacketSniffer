@@ -27,3 +27,13 @@ D:\PacketSniffer\SnifferC#\NSHW\obj\Debug\NSHW.csproj.GenerateResource.Cache
 D:\PacketSniffer\CloneSniffer\PacketSniffer\bin\Debug\NSHW.exe.config
 D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.exe
 D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.pdb
+D:\PacketSniffer\CloneSniffer\PacketSniffer\bin\Debug\NSHW.exe
+D:\PacketSniffer\CloneSniffer\PacketSniffer\bin\Debug\NSHW.pdb
+D:\PacketSniffer\CloneSniffer\PacketSniffer\bin\Debug\PcapDotNet.Analysis.dll
+D:\PacketSniffer\CloneSniffer\PacketSniffer\bin\Debug\PcapDotNet.Base.dll
+D:\PacketSniffer\CloneSniffer\PacketSniffer\bin\Debug\PcapDotNet.Core.dll
+D:\PacketSniffer\CloneSniffer\PacketSniffer\bin\Debug\PcapDotNet.Packets.dll
+D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.csprojResolveAssemblyReference.cache
+D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.GUI.resources
+D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.Properties.Resources.resources
+D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.csproj.GenerateResource.Cache

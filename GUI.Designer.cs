@@ -69,13 +69,14 @@
             this._udp = new System.Windows.Forms.CheckBox();
             this._tcp = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.tbFilter = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 310);
+            this.textBox1.Location = new System.Drawing.Point(21, 342);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -92,7 +93,7 @@
             this.columnHeader6});
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
-            this.listView1.Location = new System.Drawing.Point(13, 82);
+            this.listView1.Location = new System.Drawing.Point(21, 148);
             this.listView1.Margin = new System.Windows.Forms.Padding(4);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(733, 177);
@@ -131,7 +132,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 500;
+            this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // backgroundWorker1
@@ -287,6 +288,7 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(26, 27);
             this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripButton2
             // 
@@ -361,7 +363,7 @@
             this.save.BackColor = System.Drawing.Color.Transparent;
             this.save.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
             this.save.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.save.Location = new System.Drawing.Point(241, 542);
+            this.save.Location = new System.Drawing.Point(455, 106);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(141, 22);
             this.save.TabIndex = 35;
@@ -374,7 +376,7 @@
             this._udp.BackColor = System.Drawing.Color.Transparent;
             this._udp.Font = new System.Drawing.Font("Tahoma", 9.5F, System.Drawing.FontStyle.Bold);
             this._udp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this._udp.Location = new System.Drawing.Point(340, 493);
+            this._udp.Location = new System.Drawing.Point(237, 108);
             this._udp.Name = "_udp";
             this._udp.Size = new System.Drawing.Size(52, 20);
             this._udp.TabIndex = 34;
@@ -387,7 +389,7 @@
             this._tcp.BackColor = System.Drawing.Color.Transparent;
             this._tcp.Font = new System.Drawing.Font("Tahoma", 9.5F, System.Drawing.FontStyle.Bold);
             this._tcp.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this._tcp.Location = new System.Drawing.Point(200, 493);
+            this._tcp.Location = new System.Drawing.Point(159, 108);
             this._tcp.Name = "_tcp";
             this._tcp.Size = new System.Drawing.Size(50, 20);
             this._tcp.TabIndex = 33;
@@ -400,17 +402,26 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label3.Location = new System.Drawing.Point(17, 493);
+            this.label3.Location = new System.Drawing.Point(29, 109);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(92, 19);
             this.label3.TabIndex = 32;
             this.label3.Text = "Set filter :";
+            // 
+            // tbFilter
+            // 
+            this.tbFilter.Location = new System.Drawing.Point(21, 71);
+            this.tbFilter.Name = "tbFilter";
+            this.tbFilter.Size = new System.Drawing.Size(329, 20);
+            this.tbFilter.TabIndex = 36;
+            this.tbFilter.TextChanged += new System.EventHandler(this.tbFilter_TextChanged);
             // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(764, 598);
+            this.Controls.Add(this.tbFilter);
             this.Controls.Add(this.save);
             this.Controls.Add(this._udp);
             this.Controls.Add(this._tcp);
@@ -475,6 +486,7 @@
         private System.Windows.Forms.CheckBox _udp;
         private System.Windows.Forms.CheckBox _tcp;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tbFilter;
     }
 }
 

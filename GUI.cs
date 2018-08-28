@@ -20,7 +20,7 @@ namespace NSHW
 {
     public partial class GUI : Form
     {
-        private  IList<LivePacketDevice> AdaptersList;
+        private IList<LivePacketDevice> AdaptersList;
         private PacketDevice selectedAdapter;
         private bool first_time = true; //boolean variable needed on re-capturing
         public static byte[] payload;
@@ -35,7 +35,7 @@ namespace NSHW
             {
                 AdaptersList = LivePacketDevice.AllLocalMachine;//locate all adapters
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show("Please make sure to run as Adminstrator and install Winpcap");
             }
@@ -56,14 +56,19 @@ namespace NSHW
                 LivePacketDevice Adapter = AdaptersList[i];
 
                 if (Adapter.Description != null)
-
+                {
+                    // if(Adapter.Addresses==)
                     adapters_list.Items.Add(Adapter.Description);
+                  
+                   
+                }
+                    
                 else
                     adapters_list.Items.Add("Unknown");
             }
 
         }
-       
+
 
         //variabels needed to get info from packet
         string count = "";
@@ -86,7 +91,7 @@ namespace NSHW
         string reqres = "";
         //variables needed when saving files
         string folderName = "";
-       // string pathString = "";
+        // string pathString = "";
 
 
         private void PacketHandler(Packet packet)
@@ -100,8 +105,9 @@ namespace NSHW
             IpV4Datagram ip = packet.Ethernet.IpV4;
             TcpDatagram tcp = ip.Tcp;
             UdpDatagram udp = ip.Udp;
-            HttpDatagram httpPacket=null;
+            HttpDatagram httpPacket = null;
             IcmpDatagram icmp = ip.Icmp;
+
 
 
             if (ip.Protocol.ToString().Equals("Tcp"))
@@ -152,17 +158,28 @@ namespace NSHW
             }
             else
             {
-                if ((ip.Protocol.ToString().Equals("Udp")))
+                if (ip.Protocol.ToString().Equals("Udp"))
                 {
-                    count = packet.Count.ToString();
-                    time = packet.Timestamp.ToString();
-                    this.source = ip.Source.ToString();
-                    this.destination = ip.Destination.ToString();
-                    length = ip.Length.ToString();
-                    protocol = ip.Protocol.ToString();
-                    udpscr = udp.SourcePort.ToString();
-                    udpdes = udp.DestinationPort.ToString();
+                    if (udp.DestinationPort.ToString().Equals(53))
+                    {
+                        protocol = "dns";
+                    
+                    }
+                    else {
+                        count = packet.Count.ToString();
+                        time = packet.Timestamp.ToString();
+                        this.source = ip.Source.ToString();
+                        this.destination = ip.Destination.ToString();
+                        length = ip.Length.ToString();
+                        protocol = ip.Protocol.ToString();
+                        udpscr = udp.SourcePort.ToString();
+                        udpdes = udp.DestinationPort.ToString();
+                    }
+                        
+
+
                 }
+                
                 else
                 {
 
@@ -175,9 +192,9 @@ namespace NSHW
 
                 }
             }
-            
 
-            if (ip.Protocol.ToString().Equals("Tcp")&&(save.Checked))
+
+            if (ip.Protocol.ToString().Equals("Tcp") && (save.Checked))
             {
                 int _source = tcp.SourcePort;
                 int _destination = tcp.DestinationPort;
@@ -199,54 +216,54 @@ namespace NSHW
                     }
                     else
                         if (_source == 80)
-                            if (packets.ContainsKey(_destination))
+                        if (packets.ContainsKey(_destination))
+                        {
+                            Packet1 packet1 = packets[_destination];
+                            if (packet1.Data == null)
                             {
-                                Packet1 packet1 = packets[_destination];
-                                if (packet1.Data == null)
+                                if ((httpPacket.Header != null) && (httpPacket.Header.ContentLength != null))
                                 {
-                                    if ((httpPacket.Header != null) && (httpPacket.Header.ContentLength != null))
+                                    packet1.Data = new byte[(uint)httpPacket.Header.ContentLength.ContentLength];
+                                    Array.Copy(httpPacket.Body.ToMemoryStream().ToArray(), packet1.Data, httpPacket.Body.Length);
+                                    packet1.Order = (uint)(tcp.SequenceNumber + payload.Length - httpPacket.Body.Length);
+                                    packet1.Data_Length = httpPacket.Body.Length;
+                                    for (int i = 0; i < packet1.TempPackets.Count; i++)
                                     {
-                                        packet1.Data = new byte[(uint)httpPacket.Header.ContentLength.ContentLength];
-                                        Array.Copy(httpPacket.Body.ToMemoryStream().ToArray(), packet1.Data, httpPacket.Body.Length);
-                                        packet1.Order = (uint)(tcp.SequenceNumber + payload.Length - httpPacket.Body.Length);
-                                        packet1.Data_Length = httpPacket.Body.Length;
-                                        for (int i = 0; i < packet1.TempPackets.Count; i++)
-                                        {
-                                            Temp tempPacket = packet1.TempPackets[i];
-                                            Array.Copy(tempPacket.data, 0, packet1.Data, tempPacket.tempSeqNo - packet1.Order, tempPacket.data.Length);
-                                            packet1.Data_Length += tempPacket.data.Length;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Temp tempPacket = new Temp();
-                                        tempPacket.tempSeqNo = (uint)tcp.SequenceNumber;
-                                        tempPacket.data = new byte[payload.Length];
-                                        Array.Copy(payload, tempPacket.data, payload.Length);
-                                        packet1.TempPackets.Add(tempPacket);
+                                        Temp tempPacket = packet1.TempPackets[i];
+                                        Array.Copy(tempPacket.data, 0, packet1.Data, tempPacket.tempSeqNo - packet1.Order, tempPacket.data.Length);
+                                        packet1.Data_Length += tempPacket.data.Length;
                                     }
                                 }
-                                else if (packet1.Data_Length != packet1.Data.Length)
+                                else
                                 {
-                                    Array.Copy(payload, 0, packet1.Data, tcp.SequenceNumber - packet1.Order, payload.Length);
-
-                                    packet1.Data_Length += payload.Length;
+                                    Temp tempPacket = new Temp();
+                                    tempPacket.tempSeqNo = (uint)tcp.SequenceNumber;
+                                    tempPacket.data = new byte[payload.Length];
+                                    Array.Copy(payload, tempPacket.data, payload.Length);
+                                    packet1.TempPackets.Add(tempPacket);
                                 }
-
-                                if (packet1.Data != null)
-                                    if (packet1.Data_Length == packet1.Data.Length)
-                                    {
-
-                                        using (BinaryWriter writer = new BinaryWriter(File.Open(@"D:\captured\" + Directory.CreateDirectory(Path.GetFileName(packet1.Name)), FileMode.Create)))
-                                        {
-                                            writer.Write(packet1.Data);
-
-                                        }
-
-                                        packets.Remove(_destination);
-
-                                    }
                             }
+                            else if (packet1.Data_Length != packet1.Data.Length)
+                            {
+                                Array.Copy(payload, 0, packet1.Data, tcp.SequenceNumber - packet1.Order, payload.Length);
+
+                                packet1.Data_Length += payload.Length;
+                            }
+
+                            if (packet1.Data != null)
+                                if (packet1.Data_Length == packet1.Data.Length)
+                                {
+
+                                    using (BinaryWriter writer = new BinaryWriter(File.Open(@"D:\captured\" + Directory.CreateDirectory(Path.GetFileName(packet1.Name)), FileMode.Create)))
+                                    {
+                                        writer.Write(packet1.Data);
+
+                                    }
+
+                                    packets.Remove(_destination);
+
+                                }
+                        }
                 }
             }
 
@@ -328,7 +345,6 @@ namespace NSHW
                     return;
                 }
 
-
                 //Deallocation is  necessary
                 if (_tcp.Checked && (!_udp.Checked))//just tcp
                 {
@@ -338,7 +354,7 @@ namespace NSHW
                         communicator.SetFilter(filter);
                     }
                 }
-                 else if (_udp.Checked && !(_tcp.Checked))//just udp
+                else if (_udp.Checked && !(_tcp.Checked))//just udp
                 {
                     using (BerkeleyPacketFilter filter = communicator.CreateFilter("udp"))
                     {
@@ -353,12 +369,12 @@ namespace NSHW
                         // Set the filter
                         communicator.SetFilter(filter);
                     }
-                }              
-                
+                }
+
                 // Begin the capture
                 communicator.ReceivePackets(0, PacketHandler);
 
-                
+
 
             }
 
@@ -370,7 +386,8 @@ namespace NSHW
             {
                 using (PacketCommunicator communicator = selectedAdapter.Open(65536, PacketDeviceOpenAttributes.Promiscuous, 1000))
                 {
-                    using (PacketDumpFile dumpFile = communicator.OpenDump(@"D:\captured\file.pcap"))
+                     using (PacketDumpFile dumpFile = communicator.OpenDump(@"D:\PacketSniffer\save"))
+                  //  using (OfflinePacketDevice dumpFile = new OfflinePacketDevice(@"E:\CSharp\Pcap\dumpFile.pcap");))
                     {
                         // start the capture
                         communicator.ReceivePackets(0, dumpFile.Dump);
@@ -381,7 +398,7 @@ namespace NSHW
 
         private void captureToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void captureToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -410,18 +427,46 @@ namespace NSHW
                 MessageBox.Show("Please select an adapter!");
             }
         }
-
+        ListViewItem data = new ListViewItem();
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
 
             captureToolStripMenuItem.Enabled = true;
-           // stop_button.Enabled = false;
+            // stop_button.Enabled = false;
             adapters_list.Enabled = true;
             _tcp.Enabled = true;
             _udp.Enabled = true;
             timer1.Enabled = false;
             captureToolStripMenuItem.Text = "Re-Capturing";
             save.Enabled = true;
+            
+            
+
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            using (PacketCommunicator communicator = selectedAdapter.Open(65536, PacketDeviceOpenAttributes.Promiscuous, 1000))
+            {
+                using (BerkeleyPacketFilter filter = communicator.CreateFilter(tbFilter.Text))
+                {
+                    // Set the filter
+                    communicator.SetFilter(filter);
+                }
+            }
+        }
+
+        private void tbFilter_TextChanged(object sender, EventArgs e)
+        {
+            
+           // var s = listView1.Items.Cast<ListViewItem>();
+            var rs =listView1.Items.Cast<ListViewItem>().Where(x => x.SubItems[3].Text.ToLower().Contains(tbFilter.Text.ToLower().ToString())).ToList();
+           
+            listView1.Items.Clear();
+            foreach (var r in rs)
+                listView1.Items.Add(r);
+           
+            
         }
     }
 }
