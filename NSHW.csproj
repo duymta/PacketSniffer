@@ -38,6 +38,18 @@
     <StartupObject>NSHW.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
     <Reference Include="PcapDotNet.Analysis, Version=0.7.0.0, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\32\PcapDotNet.Analysis.dll</HintPath>
@@ -67,6 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="File.cs" />
+    <Compile Include="FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMain.Designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,6 +93,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI.resx">
       <DependentUpon>GUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -103,6 +124,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <Content Include="Lib\MetroFramework.Design.dll" />
+    <Content Include="Lib\MetroFramework.dll" />
+    <Content Include="Lib\MetroFramework.Fonts.dll" />
+    <Content Include="Resources\Folder.png" />
+    <Content Include="Resources\PauseNormal.png" />
+    <Content Include="Resources\Stop1NormalRed.png" />
+    <Content Include="Resources\wifi-signal-tower.png" />
     <None Include="Resources\if_stop-circle-o_1608388.ico" />
     <None Include="Resources\if_search_magnifying_glass_find_103857.ico" />
     <None Include="Resources\if_restart_6176.ico" />
@@ -115,6 +143,9 @@
     <None Include="Resources\if_document_1055071.ico" />
     <None Include="Resources\if_button_blue_repeat_40719.ico" />
     <None Include="Resources\background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

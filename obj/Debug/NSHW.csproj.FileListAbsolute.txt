@@ -37,3 +37,16 @@ D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.csprojResolveAssembly
 D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.GUI.resources
 D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.Properties.Resources.resources
 D:\PacketSniffer\CloneSniffer\PacketSniffer\obj\Debug\NSHW.csproj.GenerateResource.Cache
+D:\Projects\Github\PacketSniffer\bin\Debug\NSHW.exe.config
+D:\Projects\Github\PacketSniffer\obj\Debug\NSHW.exe
+D:\Projects\Github\PacketSniffer\obj\Debug\NSHW.pdb
+D:\Projects\Github\PacketSniffer\bin\Debug\NSHW.exe
+D:\Projects\Github\PacketSniffer\bin\Debug\NSHW.pdb
+D:\Projects\Github\PacketSniffer\obj\Debug\NSHW.csprojResolveAssemblyReference.cache
+D:\Projects\Github\PacketSniffer\obj\Debug\NSHW.GUI.resources
+D:\Projects\Github\PacketSniffer\obj\Debug\NSHW.Properties.Resources.resources
+D:\Projects\Github\PacketSniffer\obj\Debug\NSHW.csproj.GenerateResource.Cache
+D:\Projects\Github\PacketSniffer\obj\Debug\NSHW.FrmMain.resources
+D:\Projects\Github\PacketSniffer\bin\Debug\MetroFramework.Design.dll
+D:\Projects\Github\PacketSniffer\bin\Debug\MetroFramework.dll
+D:\Projects\Github\PacketSniffer\bin\Debug\MetroFramework.Fonts.dll

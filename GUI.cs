@@ -15,10 +15,12 @@ using PcapDotNet.Packets.IpV4;
 using PcapDotNet.Packets.Transport;
 using PcapDotNet.Packets.Http;
 using PcapDotNet.Packets.Icmp;
-
+using System.Net.Sockets;
+using System.Net.NetworkInformation;
+using MetroFramework.Forms;
 namespace NSHW
 {
-    public partial class GUI : Form
+    public partial class GUI : MetroForm
     {
         private IList<LivePacketDevice> AdaptersList;
         private PacketDevice selectedAdapter;
@@ -51,22 +53,33 @@ namespace NSHW
 
             }
 
-            for (int i = 0; i != AdaptersList.Count; ++i)//add all adapters to my Combobox
-            {
-                LivePacketDevice Adapter = AdaptersList[i];
-
-                if (Adapter.Description != null)
-                {
-                    // if(Adapter.Addresses==)
-                    adapters_list.Items.Add(Adapter.Description);
+            //for (int i = 0; i != AdaptersList.Count; ++i)//add all adapters to my Combobox
+            //{
+            //    LivePacketDevice Adapter = AdaptersList[i];
+            //    if (Adapter.Description != null)
+            //    {
+            //     ///   if(Adapter.==)
+            //        adapters_list.Items.Add(Adapter.Description);
                   
                    
-                }
+            //    }
                     
-                else
-                    adapters_list.Items.Add("Unknown");
-            }
+            //    else
+            //        adapters_list.Items.Add("Unknown");
+            //}
 
+
+            System.Net.Sockets.IPPacketInformation ipPacket = new IPPacketInformation();
+
+            NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
+            string s = adapters[ipPacket.Interface].Description;
+            for (int i =0;i< adapters.Count(); i++)
+            {
+                if(adapters[i].Name!=null)
+                {
+                    adapters_list.Items.Add(adapters[i].Name);
+                }
+            }
         }
 
 
@@ -114,7 +127,7 @@ namespace NSHW
             {
                 httpPacket = tcp.Http;//Initialize http variable only if the packet was tcp
 
-                if ((httpPacket.Header != null) && (!_tcp.Checked))
+                if ((httpPacket.Header != null)/* && (!_tcp.Checked)*/)
                 {
                     protocol = "Http";
                     httpheader = httpPacket.Header.ToString();
@@ -194,7 +207,7 @@ namespace NSHW
             }
 
 
-            if (ip.Protocol.ToString().Equals("Tcp") && (save.Checked))
+            if (ip.Protocol.ToString().Equals("Tcp") /*&& (save.Checked)*/)
             {
                 int _source = tcp.SourcePort;
                 int _destination = tcp.DestinationPort;
@@ -283,26 +296,26 @@ namespace NSHW
                 if (protocol.Equals("Tcp"))
                 {
                     textBox1.Text = "Protocol :  Tcp  \r\n SourcePort :  " + tcpsrc + "\r\n DestinationPort :  " + tcpdes + "\r\n SequenceNumber :  " + tcpsec + "\r\n NextSequenceNuber :  " + tcpnsec + "\r\n AcknowladgmentNumber :  " + tcpack;
-                    if (save.Checked)
-                    {
-                        using (StreamWriter writer = new StreamWriter(@"D:\Desktop\Capture\TcpPacketsInfo.txt", true))
-                        {
-                            writer.Write("Protocol :  Tcp  \r\n SourcePort :  " + tcpsrc + "\r\n DestinationPort :  " + tcpdes + "\r\n SequenceNumber :  " + tcpsec + "\r\n NextSequenceNuber :  " + tcpnsec + "\r\n AcknowladgmentNumber :  " + tcpack + "\r\n --------------------------------------------- \r\n");
-                        }
-                    }
+                  //  //if (save.Checked)
+                  //  //{
+                  //      using (StreamWriter writer = new StreamWriter(@"D:\Desktop\Capture\TcpPacketsInfo.txt", true))
+                  //      {
+                  //          writer.Write("Protocol :  Tcp  \r\n SourcePort :  " + tcpsrc + "\r\n DestinationPort :  " + tcpdes + "\r\n SequenceNumber :  " + tcpsec + "\r\n NextSequenceNuber :  " + tcpnsec + "\r\n AcknowladgmentNumber :  " + tcpack + "\r\n --------------------------------------------- \r\n");
+                  //      }
+                  ////  }
                 }
                 else
                 {
                     if (protocol.Equals("Http"))
                     {
                         textBox1.Text = "Protocol :  Http  \r\n Version :  " + httpver + "\r\n Length :  " + httplen + "\r\n Type :  " + reqres + "\r\n Header :  \r\n" + httpheader + "\r\n Body :  \r\n" + httpbody;
-                        if (save.Checked)
-                        {
-                            using (StreamWriter writer = new StreamWriter(@"D:\Desktop\Capture\HttpPacketsInfo.txt", true))
-                            {
-                                writer.Write("Protocol :  Http  \r\n Version :  " + httpver + "\r\n Length :  " + httplen + "\r\n Type :  " + reqres + "\r\n Header :  \r\n" + httpheader + "\r\n --------------------------------------------- \r\n");
-                            }
-                        }
+                        //if (save.Checked)
+                        //{
+                        //    using (StreamWriter writer = new StreamWriter(@"D:\Desktop\Capture\HttpPacketsInfo.txt", true))
+                        //    {
+                        //        writer.Write("Protocol :  Http  \r\n Version :  " + httpver + "\r\n Length :  " + httplen + "\r\n Type :  " + reqres + "\r\n Header :  \r\n" + httpheader + "\r\n --------------------------------------------- \r\n");
+                        //    }
+                        //}
                     }
                     else
                     {
@@ -310,13 +323,13 @@ namespace NSHW
                         {
 
                             textBox1.Text = "Protocol :  Udp  \r\n SourcePort :  " + udpscr + "\r\n DestinationPort :  " + udpdes;
-                            if (save.Checked)
-                            {
-                                using (StreamWriter writer = new StreamWriter(@"D:\Desktop\Capture\UdpPacketsInfo.txt", true))
-                                {
-                                    writer.Write("Protocol :  Udp  \r\n SourcePort :  " + udpscr + "\r\n DestinationPort :  " + udpdes + "\r\n --------------------------------------------- \r\n");
-                                }
-                            }
+                            //if (save.Checked)
+                            //{
+                            //    using (StreamWriter writer = new StreamWriter(@"D:\Desktop\Capture\UdpPacketsInfo.txt", true))
+                            //    {
+                            //        writer.Write("Protocol :  Udp  \r\n SourcePort :  " + udpscr + "\r\n DestinationPort :  " + udpdes + "\r\n --------------------------------------------- \r\n");
+                            //    }
+                            //}
                         }
                     }
                 }
@@ -345,31 +358,31 @@ namespace NSHW
                     return;
                 }
 
-                //Deallocation is  necessary
-                if (_tcp.Checked && (!_udp.Checked))//just tcp
-                {
-                    using (BerkeleyPacketFilter filter = communicator.CreateFilter("tcp"))
-                    {
-                        // Set the filter
-                        communicator.SetFilter(filter);
-                    }
-                }
-                else if (_udp.Checked && !(_tcp.Checked))//just udp
-                {
-                    using (BerkeleyPacketFilter filter = communicator.CreateFilter("udp"))
-                    {
-                        // Set the filter
-                        communicator.SetFilter(filter);
-                    }
-                }
-                else if (_tcp.Checked && (_udp.Checked))//tcp and udp
-                {
-                    using (BerkeleyPacketFilter filter = communicator.CreateFilter("ip and udp"))
-                    {
-                        // Set the filter
-                        communicator.SetFilter(filter);
-                    }
-                }
+                ////Deallocation is  necessary
+                //if (_tcp.Checked && (!_udp.Checked))//just tcp
+                //{
+                //    using (BerkeleyPacketFilter filter = communicator.CreateFilter("tcp"))
+                //    {
+                //        // Set the filter
+                //        communicator.SetFilter(filter);
+                //    }
+                //}
+                //else if (_udp.Checked && !(_tcp.Checked))//just udp
+                //{
+                //    using (BerkeleyPacketFilter filter = communicator.CreateFilter("udp"))
+                //    {
+                //        // Set the filter
+                //        communicator.SetFilter(filter);
+                //    }
+                //}
+                //else if (_tcp.Checked && (_udp.Checked))//tcp and udp
+                //{
+                //    using (BerkeleyPacketFilter filter = communicator.CreateFilter("ip and udp"))
+                //    {
+                //        // Set the filter
+                //        communicator.SetFilter(filter);
+                //    }
+                //}
 
                 // Begin the capture
                 communicator.ReceivePackets(0, PacketHandler);
@@ -382,18 +395,18 @@ namespace NSHW
 
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (save.Checked)
-            {
-                using (PacketCommunicator communicator = selectedAdapter.Open(65536, PacketDeviceOpenAttributes.Promiscuous, 1000))
-                {
-                     using (PacketDumpFile dumpFile = communicator.OpenDump(@"D:\PacketSniffer\save"))
-                  //  using (OfflinePacketDevice dumpFile = new OfflinePacketDevice(@"E:\CSharp\Pcap\dumpFile.pcap");))
-                    {
-                        // start the capture
-                        communicator.ReceivePackets(0, dumpFile.Dump);
-                    }
-                }
-            }
+            //if (save.Checked)
+            //{
+            //    using (PacketCommunicator communicator = selectedAdapter.Open(65536, PacketDeviceOpenAttributes.Promiscuous, 1000))
+            //    {
+            //         using (PacketDumpFile dumpFile = communicator.OpenDump(@"D:\PacketSniffer\save"))
+            //      //  using (OfflinePacketDevice dumpFile = new OfflinePacketDevice(@"E:\CSharp\Pcap\dumpFile.pcap");))
+            //        {
+            //            // start the capture
+            //            communicator.ReceivePackets(0, dumpFile.Dump);
+            //        }
+            //    }
+            //}
         }
 
         private void captureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -414,13 +427,13 @@ namespace NSHW
                 selectedAdapter = AdaptersList[adapters_list.SelectedIndex];//get selected adapter from combobox
                 backgroundWorker1.RunWorkerAsync();//start capturing and making filters
                 backgroundWorker2.RunWorkerAsync();//start saving .pcap file if needed
-                captureToolStripMenuItem.Enabled = false;
+                tbtnCapture.Enabled = false;
                 //stop_button.Enabled = true;
                 adapters_list.Enabled = false;
-                _tcp.Enabled = false;
-                _udp.Enabled = false;
-                first_time = false;
-                save.Enabled = false;
+                //_tcp.Enabled = false;
+                //_udp.Enabled = false;
+                //first_time = false;
+                //save.Enabled = false;
             }
             else
             {
@@ -428,22 +441,8 @@ namespace NSHW
             }
         }
         ListViewItem data = new ListViewItem();
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-
-            captureToolStripMenuItem.Enabled = true;
-            // stop_button.Enabled = false;
-            adapters_list.Enabled = true;
-            _tcp.Enabled = true;
-            _udp.Enabled = true;
-            timer1.Enabled = false;
-            captureToolStripMenuItem.Text = "Re-Capturing";
-            save.Enabled = true;
-            
-            
-
-        }
-
+     
+        //filter
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             using (PacketCommunicator communicator = selectedAdapter.Open(65536, PacketDeviceOpenAttributes.Promiscuous, 1000))
@@ -467,6 +466,38 @@ namespace NSHW
                 listView1.Items.Add(r);
            
             
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbtnCapture_Click(object sender, EventArgs e)
+        {
+            if (!first_time)//we need to re-capturing so we need to restart the program
+            {
+                Application.Restart();
+            }
+
+            else if (adapters_list.SelectedIndex >= 0)//if an adapter selected
+            {
+                timer1.Enabled = true;//start updating listview and textbox to show info
+                selectedAdapter = AdaptersList[adapters_list.SelectedIndex];//get selected adapter from combobox
+                backgroundWorker1.RunWorkerAsync();//start capturing and making filters
+                backgroundWorker2.RunWorkerAsync();//start saving .pcap file if needed
+                tbtnCapture.Enabled = false;
+                //stop_button.Enabled = true;
+                adapters_list.Enabled = false;
+                //_tcp.Enabled = false;
+                //_udp.Enabled = false;
+                //first_time = false;
+                //save.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Please select an adapter!");
+            }
         }
     }
 }

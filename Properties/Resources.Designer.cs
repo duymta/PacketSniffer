@@ -73,6 +73,16 @@ namespace NSHW.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Folder {
+            get {
+                object obj = ResourceManager.GetObject("Folder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap if_button_blue_repeat_40719 {
             get {
                 object obj = ResourceManager.GetObject("if_button_blue_repeat_40719", resourceCulture);
@@ -176,6 +186,36 @@ namespace NSHW.Properties {
         internal static System.Drawing.Bitmap if_stop_circle_o_1608388 {
             get {
                 object obj = ResourceManager.GetObject("if_stop-circle-o_1608388", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PauseNormal {
+            get {
+                object obj = ResourceManager.GetObject("PauseNormal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Stop1NormalRed {
+            get {
+                object obj = ResourceManager.GetObject("Stop1NormalRed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap wifi_signal_tower {
+            get {
+                object obj = ResourceManager.GetObject("wifi-signal-tower", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
