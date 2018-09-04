@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtInForPacket = new System.Windows.Forms.TextBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -39,8 +39,8 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker1 = new NSHW.AbortableBackgroundWorker();
+            this.backgroundWorker2 = new NSHW.AbortableBackgroundWorker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,14 +56,17 @@
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSelectedPacketToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.tbtnOpen = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tbtnCapture = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.tbtnPause = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.tbtnStop = new System.Windows.Forms.ToolStripButton();
             this.adapters_list = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tbFilter = new System.Windows.Forms.TextBox();
@@ -71,9 +74,6 @@
             this.grHeader = new System.Windows.Forms.GroupBox();
             this.grCenter = new System.Windows.Forms.GroupBox();
             this.grBottom = new System.Windows.Forms.GroupBox();
-            this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.grHeader.SuspendLayout();
@@ -81,15 +81,15 @@
             this.grBottom.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
+            // txtInForPacket
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 16);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(931, 126);
-            this.textBox1.TabIndex = 17;
+            this.txtInForPacket.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtInForPacket.Location = new System.Drawing.Point(3, 16);
+            this.txtInForPacket.Multiline = true;
+            this.txtInForPacket.Name = "txtInForPacket";
+            this.txtInForPacket.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtInForPacket.Size = new System.Drawing.Size(931, 126);
+            this.txtInForPacket.TabIndex = 17;
             // 
             // listView1
             // 
@@ -148,7 +148,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 1000;
+            this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // backgroundWorker1
@@ -273,33 +273,51 @@
             this.findToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.findToolStripMenuItem.Text = "Find";
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // statisticsToolStripMenuItem
+            // 
+            this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
+            this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(65, 23);
+            this.statisticsToolStripMenuItem.Text = "Statistics";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
             // toolStrip1
             // 
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(22, 22);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
+            this.tbtnOpen,
             this.toolStripSeparator1,
             this.tbtnCapture,
             this.toolStripSeparator2,
-            this.toolStripButton3,
+            this.tbtnPause,
             this.toolStripSeparator3,
-            this.toolStripButton4});
+            this.tbtnStop});
             this.toolStrip1.Location = new System.Drawing.Point(16, 16);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(914, 35);
             this.toolStrip1.TabIndex = 25;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // tbtnOpen
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::NSHW.Properties.Resources.Folder;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(26, 32);
-            this.toolStripButton1.Text = "Open";
+            this.tbtnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbtnOpen.Image = global::NSHW.Properties.Resources.Folder;
+            this.tbtnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbtnOpen.Name = "tbtnOpen";
+            this.tbtnOpen.Size = new System.Drawing.Size(26, 32);
+            this.tbtnOpen.Text = "Open";
             // 
             // toolStripSeparator1
             // 
@@ -321,28 +339,30 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 35);
             // 
-            // toolStripButton3
+            // tbtnPause
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::NSHW.Properties.Resources.PauseNormal;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(26, 32);
-            this.toolStripButton3.Text = "Pause";
+            this.tbtnPause.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbtnPause.Image = global::NSHW.Properties.Resources.PauseNormal;
+            this.tbtnPause.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbtnPause.Name = "tbtnPause";
+            this.tbtnPause.Size = new System.Drawing.Size(26, 32);
+            this.tbtnPause.Text = "Pause";
+            this.tbtnPause.Click += new System.EventHandler(this.tbtnPause_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 35);
             // 
-            // toolStripButton4
+            // tbtnStop
             // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = global::NSHW.Properties.Resources.Stop1NormalRed;
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(26, 32);
-            this.toolStripButton4.Text = "Stop";
+            this.tbtnStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbtnStop.Image = global::NSHW.Properties.Resources.Stop1NormalRed;
+            this.tbtnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbtnStop.Name = "tbtnStop";
+            this.tbtnStop.Size = new System.Drawing.Size(26, 32);
+            this.tbtnStop.Text = "Stop";
+            this.tbtnStop.Click += new System.EventHandler(this.tbtnStop_Click);
             // 
             // adapters_list
             // 
@@ -405,7 +425,7 @@
             // 
             // grBottom
             // 
-            this.grBottom.Controls.Add(this.textBox1);
+            this.grBottom.Controls.Add(this.txtInForPacket);
             this.grBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.grBottom.Location = new System.Drawing.Point(20, 433);
             this.grBottom.Name = "grBottom";
@@ -413,24 +433,6 @@
             this.grBottom.TabIndex = 44;
             this.grBottom.TabStop = false;
             this.grBottom.Text = "Thông tin gói tin";
-            // 
-            // statisticsToolStripMenuItem
-            // 
-            this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
-            this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(65, 23);
-            this.statisticsToolStripMenuItem.Text = "Statistics";
-            // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
-            this.viewToolStripMenuItem.Text = "View";
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 23);
-            this.helpToolStripMenuItem.Text = "Help";
             // 
             // GUI
             // 
@@ -458,7 +460,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtInForPacket;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
@@ -466,8 +468,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Timer timer1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private AbortableBackgroundWorker backgroundWorker1;
+        private AbortableBackgroundWorker backgroundWorker2;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
@@ -491,14 +493,14 @@
         private System.Windows.Forms.GroupBox grHeader;
         private System.Windows.Forms.GroupBox grCenter;
         private System.Windows.Forms.GroupBox grBottom;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton tbtnOpen;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ToolStripButton tbtnCapture;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton tbtnPause;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton tbtnStop;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem statisticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;

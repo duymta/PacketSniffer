@@ -18,6 +18,8 @@ using PcapDotNet.Packets.Icmp;
 using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using MetroFramework.Forms;
+using System.Threading;
+
 namespace NSHW
 {
     public partial class GUI : MetroForm
@@ -58,28 +60,57 @@ namespace NSHW
             //    LivePacketDevice Adapter = AdaptersList[i];
             //    if (Adapter.Description != null)
             //    {
-            //     ///   if(Adapter.==)
+            //        ///   if(Adapter.==)
             //        adapters_list.Items.Add(Adapter.Description);
-                  
-                   
+
+
             //    }
-                    
+
             //    else
             //        adapters_list.Items.Add("Unknown");
             //}
 
 
-            System.Net.Sockets.IPPacketInformation ipPacket = new IPPacketInformation();
+            //System.Net.Sockets.IPPacketInformation ipPacket = new IPPacketInformation();
+
+            //NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
+            //string s = adapters[ipPacket.Interface].Description;
+            //for (int i = 0; i < adapters.Count(); i++)
+            //{
+            //    if (adapters[i].Supports(NetworkInterfaceComponent.IPv4))
+            //    {
+            //        adapters_list.Items.Add(adapters[i].GetPhysicalAddress().To);
+            //    }
+            //}
 
             NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
-            string s = adapters[ipPacket.Interface].Description;
-            for (int i =0;i< adapters.Count(); i++)
+            int count=0;
+            for (int i = 0; i != AdaptersList.Count; ++i)
             {
-                if(adapters[i].Name!=null)
+                LivePacketDevice Adapter = AdaptersList[i];
+                if (Adapter.Description != null)
                 {
-                    adapters_list.Items.Add(adapters[i].Name);
+
+                    foreach (NetworkInterface adapter in adapters)
+                    {
+
+                        var ipProps = adapter.GetIPProperties();
+                        IPInterfaceProperties properties = adapter.GetIPProperties();
+                        if (adapter.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || adapter.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                        {
+                            string s = AdaptersList[count].Name.Remove(0, 20);
+                            if (adapter.Id == AdaptersList[i].Name.Remove(0, 20))
+                            {
+                                adapters_list.Items.Add(adapter.Name);
+                            }
+                         
+                        }
+                    }
+
                 }
+
             }
+         
         }
 
 
@@ -295,7 +326,7 @@ namespace NSHW
 
                 if (protocol.Equals("Tcp"))
                 {
-                    textBox1.Text = "Protocol :  Tcp  \r\n SourcePort :  " + tcpsrc + "\r\n DestinationPort :  " + tcpdes + "\r\n SequenceNumber :  " + tcpsec + "\r\n NextSequenceNuber :  " + tcpnsec + "\r\n AcknowladgmentNumber :  " + tcpack;
+                    txtInForPacket.Text = "Protocol :  Tcp  \r\n SourcePort :  " + tcpsrc + "\r\n DestinationPort :  " + tcpdes + "\r\n SequenceNumber :  " + tcpsec + "\r\n NextSequenceNuber :  " + tcpnsec + "\r\n AcknowladgmentNumber :  " + tcpack;
                   //  //if (save.Checked)
                   //  //{
                   //      using (StreamWriter writer = new StreamWriter(@"D:\Desktop\Capture\TcpPacketsInfo.txt", true))
@@ -308,7 +339,7 @@ namespace NSHW
                 {
                     if (protocol.Equals("Http"))
                     {
-                        textBox1.Text = "Protocol :  Http  \r\n Version :  " + httpver + "\r\n Length :  " + httplen + "\r\n Type :  " + reqres + "\r\n Header :  \r\n" + httpheader + "\r\n Body :  \r\n" + httpbody;
+                        txtInForPacket.Text = "Protocol :  Http  \r\n Version :  " + httpver + "\r\n Length :  " + httplen + "\r\n Type :  " + reqres + "\r\n Header :  \r\n" + httpheader + "\r\n Body :  \r\n" + httpbody;
                         //if (save.Checked)
                         //{
                         //    using (StreamWriter writer = new StreamWriter(@"D:\Desktop\Capture\HttpPacketsInfo.txt", true))
@@ -322,7 +353,7 @@ namespace NSHW
                         if (protocol.Equals("Udp"))
                         {
 
-                            textBox1.Text = "Protocol :  Udp  \r\n SourcePort :  " + udpscr + "\r\n DestinationPort :  " + udpdes;
+                            txtInForPacket.Text = "Protocol :  Udp  \r\n SourcePort :  " + udpscr + "\r\n DestinationPort :  " + udpdes;
                             //if (save.Checked)
                             //{
                             //    using (StreamWriter writer = new StreamWriter(@"D:\Desktop\Capture\UdpPacketsInfo.txt", true))
@@ -348,6 +379,12 @@ namespace NSHW
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
 
+            if (this.backgroundWorker1.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+            // do stuff...
             using (PacketCommunicator communicator = selectedAdapter.Open(65536, PacketDeviceOpenAttributes.Promiscuous, 1000))
             {
                 // Check the link layer.
@@ -429,7 +466,7 @@ namespace NSHW
                 backgroundWorker2.RunWorkerAsync();//start saving .pcap file if needed
                 tbtnCapture.Enabled = false;
                 //stop_button.Enabled = true;
-                adapters_list.Enabled = false;
+              //  adapters_list.Enabled = false;
                 //_tcp.Enabled = false;
                 //_udp.Enabled = false;
                 //first_time = false;
@@ -483,10 +520,11 @@ namespace NSHW
             else if (adapters_list.SelectedIndex >= 0)//if an adapter selected
             {
                 timer1.Enabled = true;//start updating listview and textbox to show info
+                timer1.Start();
                 selectedAdapter = AdaptersList[adapters_list.SelectedIndex];//get selected adapter from combobox
                 backgroundWorker1.RunWorkerAsync();//start capturing and making filters
                 backgroundWorker2.RunWorkerAsync();//start saving .pcap file if needed
-                tbtnCapture.Enabled = false;
+           
                 //stop_button.Enabled = true;
                 adapters_list.Enabled = false;
                 //_tcp.Enabled = false;
@@ -497,6 +535,76 @@ namespace NSHW
             else
             {
                 MessageBox.Show("Please select an adapter!");
+            }
+        }
+
+        private void tbtnPause_Click(object sender, EventArgs e)
+        {
+            ThreadWatcher.StopThread = true;//t
+            if (backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.Abort();
+                backgroundWorker1.Dispose();
+            }
+            if(backgroundWorker2.IsBusy)
+            {
+                backgroundWorker2.Abort();
+                backgroundWorker2.Dispose();
+            }
+            timer1.Stop();
+           // backgroundWorker1.RunWorkerAsync();
+
+        }
+        public static class ThreadWatcher
+        {
+            public static bool StopThread { get; set; }
+        }
+
+        private void tbtnStop_Click(object sender, EventArgs e)
+        {
+            ThreadWatcher.StopThread = true;//t
+            if (backgroundWorker1.IsBusy)
+            {
+                backgroundWorker1.Abort();
+                backgroundWorker1.Dispose();
+            }
+            if (backgroundWorker2.IsBusy)
+            {
+                backgroundWorker2.Abort();
+                backgroundWorker2.Dispose();
+            }
+            timer1.Stop();
+            listView1.Clear();
+            txtInForPacket.Clear();
+        }
+    }
+
+    public class AbortableBackgroundWorker : BackgroundWorker
+    {
+
+        private Thread workerThread;
+
+        protected override void OnDoWork(DoWorkEventArgs e)
+        {
+            workerThread = Thread.CurrentThread;
+            try
+            {
+                base.OnDoWork(e);
+            }
+            catch (ThreadAbortException)
+            {
+                e.Cancel = true; //We must set Cancel property to true!
+                Thread.ResetAbort(); //Prevents ThreadAbortException propagation
+            }
+        }
+
+
+        public void Abort()
+        {
+            if (workerThread != null)
+            {
+                workerThread.Abort();
+                workerThread = null;
             }
         }
     }

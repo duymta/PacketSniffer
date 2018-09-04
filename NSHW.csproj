@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>CustomWifi.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>NSHW.Program</StartupObject>
@@ -52,19 +52,19 @@
     </Reference>
     <Reference Include="PcapDotNet.Analysis, Version=0.7.0.0, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\32\PcapDotNet.Analysis.dll</HintPath>
+      <HintPath>Lib\PcapDotNet.Analysis.dll</HintPath>
     </Reference>
     <Reference Include="PcapDotNet.Base, Version=1.0.2.21699, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\32\PcapDotNet.Base.dll</HintPath>
+      <HintPath>Lib\PcapDotNet.Base.dll</HintPath>
     </Reference>
     <Reference Include="PcapDotNet.Core, Version=1.0.2.21711, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\32\PcapDotNet.Core.dll</HintPath>
+      <HintPath>Lib\PcapDotNet.Core.dll</HintPath>
     </Reference>
     <Reference Include="PcapDotNet.Packets, Version=1.0.2.21701, Culture=neutral, PublicKeyToken=4b6f3e583145a652, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\32\PcapDotNet.Packets.dll</HintPath>
+      <HintPath>Lib\PcapDotNet.Packets.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -123,14 +123,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CustomWifi.ico" />
     <Content Include="icon.ico" />
     <Content Include="Lib\MetroFramework.Design.dll" />
     <Content Include="Lib\MetroFramework.dll" />
     <Content Include="Lib\MetroFramework.Fonts.dll" />
+    <Content Include="Lib\PcapDotNet.Analysis.dll" />
+    <Content Include="Lib\PcapDotNet.Base.dll" />
+    <Content Include="Lib\PcapDotNet.Core.dll" />
+    <Content Include="Lib\PcapDotNet.Packets.dll" />
+    <Content Include="Resources\CustomWifi.ico" />
     <Content Include="Resources\Folder.png" />
     <Content Include="Resources\PauseNormal.png" />
     <Content Include="Resources\Stop1NormalRed.png" />
     <Content Include="Resources\wifi-signal-tower.png" />
+    <Content Include="wifi.ico" />
     <None Include="Resources\if_stop-circle-o_1608388.ico" />
     <None Include="Resources\if_search_magnifying_glass_find_103857.ico" />
     <None Include="Resources\if_restart_6176.ico" />
