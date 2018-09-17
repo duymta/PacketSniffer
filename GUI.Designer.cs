@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
             this.txtInForPacket = new System.Windows.Forms.TextBox();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -39,8 +40,6 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.backgroundWorker1 = new NSHW.AbortableBackgroundWorker();
-            this.backgroundWorker2 = new NSHW.AbortableBackgroundWorker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,6 +57,7 @@
             this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bmssToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tbtnOpen = new System.Windows.Forms.ToolStripButton();
@@ -74,6 +74,8 @@
             this.grHeader = new System.Windows.Forms.GroupBox();
             this.grCenter = new System.Windows.Forms.GroupBox();
             this.grBottom = new System.Windows.Forms.GroupBox();
+            this.backgroundWorker1 = new NSHW.AbortableBackgroundWorker();
+            this.backgroundWorker2 = new NSHW.AbortableBackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.grHeader.SuspendLayout();
@@ -94,6 +96,7 @@
             // listView1
             // 
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader7,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
@@ -109,7 +112,12 @@
             this.listView1.TabIndex = 14;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "NO.";
             // 
             // columnHeader2
             // 
@@ -145,20 +153,6 @@
             this.columnHeader1.Text = "Info";
             this.columnHeader1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.columnHeader1.Width = 198;
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 500;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
-            // backgroundWorker2
-            // 
-            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
             // 
             // menuStrip1
             // 
@@ -203,9 +197,11 @@
             // 
             // saveToolStripMenuItem
             // 
+            this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
@@ -281,9 +277,18 @@
             // 
             // statisticsToolStripMenuItem
             // 
+            this.statisticsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bmssToolStripMenuItem});
             this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
             this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(65, 23);
             this.statisticsToolStripMenuItem.Text = "Statistics";
+            // 
+            // bmssToolStripMenuItem
+            // 
+            this.bmssToolStripMenuItem.Name = "bmssToolStripMenuItem";
+            this.bmssToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.bmssToolStripMenuItem.Text = "bms/s";
+            this.bmssToolStripMenuItem.Click += new System.EventHandler(this.bmssToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -367,7 +372,7 @@
             // adapters_list
             // 
             this.adapters_list.FormattingEnabled = true;
-            this.adapters_list.Location = new System.Drawing.Point(646, 61);
+            this.adapters_list.Location = new System.Drawing.Point(639, 63);
             this.adapters_list.Name = "adapters_list";
             this.adapters_list.Size = new System.Drawing.Size(291, 21);
             this.adapters_list.TabIndex = 26;
@@ -433,6 +438,15 @@
             this.grBottom.TabIndex = 44;
             this.grBottom.TabStop = false;
             this.grBottom.Text = "Thông tin gói tin";
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // backgroundWorker2
+            // 
+            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
             // 
             // GUI
             // 
@@ -504,6 +518,8 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem statisticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ToolStripMenuItem bmssToolStripMenuItem;
     }
 }
 
