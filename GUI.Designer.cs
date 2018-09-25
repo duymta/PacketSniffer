@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
-            this.txtInForPacket = new System.Windows.Forms.TextBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -80,18 +79,7 @@
             this.toolStrip1.SuspendLayout();
             this.grHeader.SuspendLayout();
             this.grCenter.SuspendLayout();
-            this.grBottom.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // txtInForPacket
-            // 
-            this.txtInForPacket.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtInForPacket.Location = new System.Drawing.Point(3, 16);
-            this.txtInForPacket.Multiline = true;
-            this.txtInForPacket.Name = "txtInForPacket";
-            this.txtInForPacket.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtInForPacket.Size = new System.Drawing.Size(931, 126);
-            this.txtInForPacket.TabIndex = 17;
             // 
             // listView1
             // 
@@ -105,10 +93,10 @@
             this.columnHeader1});
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
-            this.listView1.Location = new System.Drawing.Point(7, 20);
+            this.listView1.Location = new System.Drawing.Point(7, 32);
             this.listView1.Margin = new System.Windows.Forms.Padding(4);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(923, 219);
+            this.listView1.Size = new System.Drawing.Size(1110, 214);
             this.listView1.TabIndex = 14;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -122,7 +110,7 @@
             // columnHeader2
             // 
             this.columnHeader2.Text = "Time";
-            this.columnHeader2.Width = 182;
+            this.columnHeader2.Width = 141;
             // 
             // columnHeader3
             // 
@@ -152,7 +140,7 @@
             // 
             this.columnHeader1.Text = "Info";
             this.columnHeader1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnHeader1.Width = 198;
+            this.columnHeader1.Width = 328;
             // 
             // menuStrip1
             // 
@@ -165,7 +153,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(20, 60);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(937, 27);
+            this.menuStrip1.Size = new System.Drawing.Size(1126, 27);
             this.menuStrip1.TabIndex = 24;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -188,6 +176,7 @@
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
@@ -311,7 +300,7 @@
             this.tbtnStop});
             this.toolStrip1.Location = new System.Drawing.Point(16, 16);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(914, 35);
+            this.toolStrip1.Size = new System.Drawing.Size(1089, 35);
             this.toolStrip1.TabIndex = 25;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -323,6 +312,7 @@
             this.tbtnOpen.Name = "tbtnOpen";
             this.tbtnOpen.Size = new System.Drawing.Size(26, 32);
             this.tbtnOpen.Text = "Open";
+            this.tbtnOpen.Click += new System.EventHandler(this.tbtnOpen_Click);
             // 
             // toolStripSeparator1
             // 
@@ -372,7 +362,7 @@
             // adapters_list
             // 
             this.adapters_list.FormattingEnabled = true;
-            this.adapters_list.Location = new System.Drawing.Point(639, 63);
+            this.adapters_list.Location = new System.Drawing.Point(811, 63);
             this.adapters_list.Name = "adapters_list";
             this.adapters_list.Size = new System.Drawing.Size(291, 21);
             this.adapters_list.TabIndex = 26;
@@ -380,7 +370,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(538, 66);
+            this.label1.Location = new System.Drawing.Point(683, 66);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 13);
             this.label1.TabIndex = 27;
@@ -413,7 +403,7 @@
             this.grHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.grHeader.Location = new System.Drawing.Point(20, 87);
             this.grHeader.Name = "grHeader";
-            this.grHeader.Size = new System.Drawing.Size(937, 100);
+            this.grHeader.Size = new System.Drawing.Size(1126, 100);
             this.grHeader.TabIndex = 42;
             this.grHeader.TabStop = false;
             // 
@@ -423,18 +413,17 @@
             this.grCenter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grCenter.Location = new System.Drawing.Point(20, 187);
             this.grCenter.Name = "grCenter";
-            this.grCenter.Size = new System.Drawing.Size(937, 391);
+            this.grCenter.Size = new System.Drawing.Size(1126, 474);
             this.grCenter.TabIndex = 43;
             this.grCenter.TabStop = false;
             this.grCenter.Text = "Danh sách các gói tin bắt được";
             // 
             // grBottom
             // 
-            this.grBottom.Controls.Add(this.txtInForPacket);
             this.grBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.grBottom.Location = new System.Drawing.Point(20, 433);
+            this.grBottom.Location = new System.Drawing.Point(20, 449);
             this.grBottom.Name = "grBottom";
-            this.grBottom.Size = new System.Drawing.Size(937, 145);
+            this.grBottom.Size = new System.Drawing.Size(1126, 212);
             this.grBottom.TabIndex = 44;
             this.grBottom.TabStop = false;
             this.grBottom.Text = "Thông tin gói tin";
@@ -452,7 +441,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(977, 598);
+            this.ClientSize = new System.Drawing.Size(1166, 681);
             this.Controls.Add(this.grBottom);
             this.Controls.Add(this.grCenter);
             this.Controls.Add(this.grHeader);
@@ -467,14 +456,11 @@
             this.grHeader.ResumeLayout(false);
             this.grHeader.PerformLayout();
             this.grCenter.ResumeLayout(false);
-            this.grBottom.ResumeLayout(false);
-            this.grBottom.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.TextBox txtInForPacket;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
