@@ -30,6 +30,8 @@ namespace NSHW
         public static byte[] payload;
         public static Dictionary<int, Packet1> packets = new Dictionary<int, Packet1>();
         #region declare variable
+        private AbortableBackgroundWorker backgroundWorker1;
+        private AbortableBackgroundWorker backgroundWorker2;
         //variabels needed to get info from packet
         string count = "";
         string time = "";
@@ -64,7 +66,7 @@ namespace NSHW
         public GUI()
         {
             InitializeComponent();
-
+           
             try
             {
                 AdaptersList = LivePacketDevice.AllLocalMachine;//locate all adapters
@@ -118,6 +120,7 @@ namespace NSHW
 
         }
 
+       
         #region hàm xử lý packet
         //ham xu ly offlive
         private void DispatcherHandler(Packet packet)
@@ -234,6 +237,7 @@ namespace NSHW
                 item.SubItems.Add(protocol);
                 item.SubItems.Add(length);
                 item.SubItems.Add(infor);
+                item.Tag = packet;
                 SetText(item);
             }
         }
@@ -434,7 +438,7 @@ namespace NSHW
                 item.SubItems.Add(protocol);
                 item.SubItems.Add(length);
                 item.SubItems.Add(infor);
-             
+                item.Tag = packet;
                 SetText(item);
             }
 
@@ -498,7 +502,7 @@ namespace NSHW
             nodeIPv4.Text = "Internet Protocol Version 4";
             TreeNode nodeVersion = new TreeNode();
             nodeVersion.Name = "nodeVersion";
-            nodeVersion.Text = "Version: " +packet.IpV4.GetType();
+            nodeVersion.Text = "Version: " +packet.Ethernet.Ip.Version.ToString();
             TreeNode nodeHeaderLeght = new TreeNode();
             nodeHeaderLeght.Name = "nodeHeaderLeght";
             nodeHeaderLeght.Text = "Header Lenght: " + packet.Ethernet.IpV4.HeaderLength;
@@ -705,7 +709,13 @@ namespace NSHW
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listView1.SelectedItems.Count == 0)
+                return;
 
+            var item = listView1.SelectedItems[0];
+            Packet myPacket = (Packet)item.Tag; //
+            grBottom.Controls.Clear();
+            InformationPacket(myPacket);
         }
 
         private void tbtnCapture_Click(object sender, EventArgs e)
@@ -717,25 +727,40 @@ namespace NSHW
                 no = 0;
                 listView1.Items.Clear();
                 listView1.Update();
+                grBottom.Controls.Clear();
+                backgroundWorker1 = new AbortableBackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                backgroundWorker2 = new AbortableBackgroundWorker
+                {
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
+                };
+                backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+                backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
                 selectedAdapter = AdaptersList[adapters_list.SelectedIndex];
                 backgroundWorker1.RunWorkerAsync();
                 backgroundWorker2.RunWorkerAsync();
                 tbtnCapture.Enabled = false;
                 //stop_button.Enabled = true;
-                adapters_list.Enabled = false;
+
 
             }
             else
             {
-                MessageBox.Show("Please select an adapter!");
+                MessageBox.Show("Chọn thiết bị mạng");
             }
         }
 
         private void tbtnPause_Click(object sender, EventArgs e)
         {
 
+            ThreadWatcher.StopThread = true;//t
             if (backgroundWorker1.IsBusy)
             {
+                backgroundWorker1.CancelAsync();
                 backgroundWorker1.Abort();
                 backgroundWorker1.Dispose();
 
@@ -753,13 +778,16 @@ namespace NSHW
         private void tbtnStop_Click(object sender, EventArgs e)
         {
 
+            ThreadWatcher.StopThread = true;//t
             if (backgroundWorker1.IsBusy)
             {
+                backgroundWorker1.CancelAsync();
                 backgroundWorker1.Abort();
                 backgroundWorker1.Dispose();
             }
             if (backgroundWorker2.IsBusy)
             {
+                backgroundWorker2.CancelAsync();
                 backgroundWorker2.Abort();
                 backgroundWorker2.Dispose();
             }
@@ -903,7 +931,10 @@ namespace NSHW
 
 
     }
-
+    public static class ThreadWatcher
+    {
+        public static bool StopThread { get; set; }
+    }
     public class AbortableBackgroundWorker : BackgroundWorker
     {
 

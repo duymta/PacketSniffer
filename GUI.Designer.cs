@@ -73,8 +73,6 @@
             this.grHeader = new System.Windows.Forms.GroupBox();
             this.grCenter = new System.Windows.Forms.GroupBox();
             this.grBottom = new System.Windows.Forms.GroupBox();
-            this.backgroundWorker1 = new NSHW.AbortableBackgroundWorker();
-            this.backgroundWorker2 = new NSHW.AbortableBackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.grHeader.SuspendLayout();
@@ -428,15 +426,6 @@
             this.grBottom.TabStop = false;
             this.grBottom.Text = "Thông tin gói tin";
             // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
-            // backgroundWorker2
-            // 
-            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -468,8 +457,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Timer timer1;
-        private AbortableBackgroundWorker backgroundWorker1;
-        private AbortableBackgroundWorker backgroundWorker2;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
